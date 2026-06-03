@@ -1,0 +1,14 @@
+###
+POST http://localhost:8080/game/init
+accept: application/json
+content-type: application/json
+
+{
+  "numberOfPlayers": 4,
+  "aliases": [
+    "Alice",
+    "Bob",
+    "Charlie",
+    "Diana"
+  ]
+}
