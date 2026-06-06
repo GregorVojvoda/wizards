@@ -17,4 +17,7 @@ You can run the application locally by running the command
 
 The application will be available at http://localhost:8080
 
-To initialize a game and track predictions and scores you can find an http file with a simple example in src/test/resources/assets/client.http.
+To initialize a game and track predictions and scores you can find an http file with a simple example in 
+```xpath
+src/test/resources/assets/client.http
+```
