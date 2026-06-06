@@ -1,0 +1,155 @@
+table {
+    width: 100%;
+    /* border-collapse: collapse; */
+    margin-top: 20px;
+    border-radius: 12px;
+
+    border-collapse: separate;
+    border-spacing: 0;
+
+    /* 2. Round the corners of the table */
+    border-radius: 12px;
+
+    /* 3. The inner thick dark gray border */
+    border: 6px solid #4a4a4a;
+
+    /* 4. The outer black border (using box-shadow so it curves) */
+    box-shadow: 0 0 0 2px #343837;
+
+    /* 5. Keeps cell backgrounds from overlapping the rounded corners */
+    overflow: hidden;
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #939595;
+}
+
+.player-header {
+    background-color: #939595;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.sub-header {
+    font-size: 0.85em;
+    color: #666;
+    background-color: #939595;
+}
+
+.score-data {
+    background-color: goldenrod;
+}
+
+.winner-score {
+    background-color: goldenrod;
+    animation: infiniteGoldGlow 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+tr {
+    background-color: #939595;
+}
+
+th:last-child,
+td:last-child {
+    border-right: none;
+}
+
+tr:last-child th,
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* tr:nth-child(even) {
+    background-color: #f9f9f9;
+} */
+
+body {
+    background-color: #343837;
+    /* Set the font stack */
+    font-family: "Palatino Linotype", "Palatino", "Georgia", "Times New Roman", serif;
+
+    /* Expert tweaks to make standard text look more gothic */
+    font-size: 16px;
+    line-height: 1.6;
+    letter-spacing: 0.03em;
+
+    color: #7b3f32;
+    -webkit-text-stroke: 2px #111416;
+
+    /* The Glow Stack: core blur, medium blur, wide ambient blur */
+    text-shadow:
+        0 0 3px #00b000,
+        /* Pure laser green sharp center core */
+        0 0 8px #00b000,
+        /* Overlapping laser core to double intensity */
+        0 0 20px rgba(0, 255, 0, 0.8),
+        /* Blinding radioactive bloom */
+        0 0 45px rgba(0, 51, 10, 0.9),
+        /* Heavy, saturated middle dark green */
+        0 0 75px rgba(0, 26, 5, 0.95),
+        /* Pitch-black abyssal green outer atmosphere */
+        0 0 110px rgba(0, 10, 2, 1.0);
+}
+
+.animatedTable {
+    animation: slideUp 1s ease-in-out;
+}
+
+h1 {
+    font-size: 50px;
+    font-weight: bold;
+
+    /* Massive, wide dark shadow wash */
+}
+
+@keyframes slideUp {
+    0% {
+        transform: translateY(50);
+        opacity: 0;
+    }
+
+    70% {
+        opacity: 1;
+        /* Fade in fully slightly before arriving */
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes infiniteGoldGlow {
+
+    0%,
+    100% {
+        /* BASE STATE: Already heavily glowing, highly saturated gold */
+        box-shadow:
+            0 0 18px rgba(255, 170, 0, 0.75),
+            /* Vibrant orange-gold core */
+            0 0 35px rgba(204, 102, 0, 0.45),
+            /* Steady ambient heat */
+            inset 0 0 12px rgba(255, 170, 0, 0.4);
+        border-color: rgba(255, 170, 0, 0.85);
+    }
+
+    50% {
+        /* PEAK STATE: Blinding intensification, expanding slightly but mostly gaining density */
+        box-shadow:
+            0 0 28px rgba(255, 235, 92, 0.95),
+            /* Super-dense bright yellow-gold core */
+            0 0 55px rgba(255, 153, 0, 0.7),
+            /* Massive, intense energy bloom */
+            0 0 85px rgba(204, 102, 0, 0.35),
+            /* Broad environment wash */
+            inset 0 0 22px rgba(255, 235, 92, 0.6);
+        border-color: rgba(255, 235, 92, 1);
+    }
+}

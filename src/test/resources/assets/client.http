@@ -1,14 +1,44 @@
-###
+@ROUND=1
+@GAME_NAME=GAME_01
+
 POST http://localhost:8080/game/init
-accept: application/json
-content-type: application/json
+Content-Type: application/json
 
 {
-  "numberOfPlayers": 4,
+  "gameName": "{{GAME_NAME}}",
   "aliases": [
-    "Alice",
-    "Bob",
-    "Charlie",
-    "Diana"
+    "Gregor",
+    "Rada",
+    "Kuki",
+    "Vito",
+    "Nezka",
+    "Petra"
   ]
+}
+
+
+###
+POST http://localhost:8080/game/{{GAME_NAME}}/round/predict
+Content-Type: application/json
+
+{
+  "Gregor": {{ROUND}},
+  "Rada": 0,
+  "Kuki": 0,
+  "Vito": 0,
+  "Nezka": 0,
+  "Petra": 0
+}
+
+###
+POST http://localhost:8080/game/{{GAME_NAME}}/round/result
+Content-Type: application/json
+
+{
+  "Gregor": {{ROUND}},
+  "Rada": 0,
+  "Kuki": 0,
+  "Vito": 0,
+  "Nezka": 0,
+  "Petra": 0
 }
