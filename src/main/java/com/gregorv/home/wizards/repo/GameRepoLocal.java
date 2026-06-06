@@ -12,6 +12,9 @@ public class GameRepoLocal implements GameRepo {
 
     @Override
     public void initGame(String gameName, Set<String> aliases) {
+        if(games.get(gameName) != null){
+            throw new IllegalStateException("Game with name '%s' already exists".formatted(gameName));
+        }
         WizardsGame game = new WizardsGame(gameName, aliases);
         games.put(gameName, game);
     }
