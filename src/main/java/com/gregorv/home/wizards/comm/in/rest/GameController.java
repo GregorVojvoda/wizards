@@ -5,7 +5,6 @@ import com.gregorv.home.wizards.vo.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
-import tools.jackson.databind.ObjectMapper;
 
 import java.math.BigInteger;
 import java.util.Map;
@@ -16,7 +15,6 @@ public class GameController {
 
     private final GameRepo repository;
     private final SimpMessagingTemplate messagingTemplate;
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     private static final String GAMES_TOPIC_PATH = "/topic/games";
 
@@ -48,7 +46,7 @@ public class GameController {
         repository.setGameRoundPrediction(gameName, prediction);
         WizardsGame game = repository.getGame(gameName);
 
-        sendMessageToGamesSocket(GameSocketMessageType.TABLE_UPDATE, game);
+        sendMessageToGamesSocket(GameSocketMessage.tableUpdate(game.getScoreboard()));
         return ResponseEntity.ok().body(null);
     }
 
@@ -56,27 +54,16 @@ public class GameController {
     public ResponseEntity<Void> setRoundResult(@PathVariable("gameName") String gameName, @RequestBody Map<String, Integer> result) {
         repository.setGameRoundResult(gameName, result);
         WizardsGame game = repository.getGame(gameName);
-        sendMessageToGamesSocket(GameSocketMessageType.TABLE_UPDATE, game);
+        sendMessageToGamesSocket(GameSocketMessage.tableUpdate(game.getScoreboard()));
 
         if (game.getRound() > game.gameNumberOfRounds()) {
-            sendMessageToGamesSocket(GameSocketMessageType.GAME_FINISH, game);
+            sendMessageToGamesSocket(GameSocketMessage.gameFinish(game.getScore()));
         }
 
         return ResponseEntity.ok().body(null);
     }
 
-    private void sendMessageToGamesSocket(GameSocketMessageType type, WizardsGame game) {
-        GameSocketMessage gameSocketMessage;
-        switch (type) {
-            case TABLE_UPDATE ->
-                    gameSocketMessage = new GameSocketMessage(OBJECT_MAPPER.writeValueAsString(game.getScoreboard())).setType(type.name());
-            case GAME_FINISH ->
-                    gameSocketMessage = new GameSocketMessage(OBJECT_MAPPER.writeValueAsString(game.getScore())).setType(type.name());
-            default -> {
-                return;
-            }
-        }
-
+    private void sendMessageToGamesSocket(GameSocketMessage gameSocketMessage) {
         messagingTemplate.convertAndSend(GAMES_TOPIC_PATH, gameSocketMessage);
     }
 
