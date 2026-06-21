@@ -1,5 +1,20 @@
+// Build broker URL dynamically so the client connects to the same host/port
+// the page was served from. This supports deploying the app on another host
+// or behind a reverse proxy and works with both HTTP and HTTPS (ws/wss).
+const _loc = window.location;
+const _wsProto = _loc.protocol === 'https:' ? 'wss' : 'ws';
+
+// Compute the application base path from the current pathname. We remove the
+// last segment so that paths like `/app/` or `/app/index.html` result in
+// `/app` as the base. For root-mounted apps this becomes an empty string.
+const _pathParts = _loc.pathname.split('/');
+_pathParts.pop(); // drop last segment (could be '' when pathname ends with '/')
+const _basePath = _pathParts.join('/') || '';
+
+const brokerUrl = `${_wsProto}://${_loc.host}${_basePath}/gs-guide-websocket`;
+
 const stompClient = new StompJs.Client({
-    brokerURL: 'ws://localhost:8080/gs-guide-websocket'
+    brokerURL: brokerUrl
 });
 
 stompClient.onConnect = (frame) => {
